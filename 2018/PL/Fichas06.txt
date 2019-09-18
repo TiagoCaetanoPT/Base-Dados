@@ -1,0 +1,63 @@
+
+
+
+4. SELECT * FROM departamento
+
+5. SessaoA
+INSERT INTO departamento VALUES (50,'Estatistica','Lisboa');
+
+6. SessaoB
+UPDATE departamento SET localizacao='Braga' WHERE numdep=30;
+
+
+
+
+8. SessaoA
+COMMIT;
+
+10. SessaoA
+UPDATE departamento SET nomedep='Retalho' WHERE numdep=50;
+
+11. SessaoB
+ROLLBACK;
+
+
+
+13. SessaoB
+UPDATE empregado SET funcao='Analista' WHERE numdep=7499;
+
+14. SessaoB
+UPDATE departamento SET localizacao='Braga' WHERE numdep=30;
+
+15. SessaoA
+UPDATE empregado SET comissao=NULL WHERE numdep=7499;
+
+
+
+17. SessaoB
+ROLLBACK;
+
+
+
+19. SessaoB
+SELECT * FROM empregado;
+
+20. SessaoB
+INSERT INTO historico_funcao VALUES(999,7499,'Escriturário','80.02.20','81.02.20',30);
+
+INSERT INTO historico_funcao VALUES(999,
+									7499,
+									'Escriturário',
+									(SELECT dtacontratacao
+									FROM empregado
+									WHERE numemp = 7499),
+									(SELECT dtacontratacao
+									FROM empregado
+									WHERE numemp = 7499),
+									30);
+
+
+
+
+21. SessãoB
+INSERT INTO empregado VALUES()

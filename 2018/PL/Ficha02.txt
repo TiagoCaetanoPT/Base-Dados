@@ -1,0 +1,99 @@
+@ C:\aulas\Ficha2_scripts\ficha2.sql
+
+
+
+-- ###################################################
+--                  FICHA 2
+-- ###################################################
+/* ORDENAR ORDER BY ASC|DESC*/
+-- 1
+SELECT table_name 
+FROM user_tables
+ORDER BY table_name ASC;
+
+-- 2 .a
+SELECT *
+FROM departamento
+ORDER BY numdep;
+
+-- 2 .b
+SELECT * 
+FROM empregado
+ORDER BY numemp;
+
+-- 2 .c
+SELECT *
+FROM escala_salarial
+ORDER BY escala;
+
+-- 2 .d
+SELECT *
+FROM historico_funcao
+ORDER BY idhist;
+
+-- 3
+SELECT DISTINCT funcao
+FROM empregado
+ORDER BY funcao ASC;
+
+-- 5
+/* SUBSTITUIR VALOR DE COLUNAS NVL(to_char(comissao),'Não Tem') */
+/* AS, altera nome coluna */
+SELECT nomeemp, salario, NVL(to_char(comissao),'Não Tem') AS "COMISSÃO"
+FROM empregado
+ORDER BY salario DESC, nomeemp ASC;
+
+-- 8
+SELECT  'O ' || UPPER(nomeemp) || ' ganha ' || salario || ' mas queria ganhar ' || 3*salario
+AS "SALÁRIOS"
+FROM empregado;
+
+-- 9
+SELECT nomeemp, salario, comissao
+FROM empregado
+WHERE NVL(comissao,0) > salario;
+
+-- 15
+SELECT nomeemp
+FROM empregado
+WHERE LOWER(nomeemp) LIKE '%o%'
+ORDER BY nomeemp;
+
+-- 17
+SELECT nomeemp
+FROM empregado
+WHERE LOWER(nomeemp)NOT LIKE '%o%';
+
+-- 20
+SELECT nomeemp,salario
+FROM empregado
+WHERE comissao IS NULL 
+AND salario > 3000;
+
+-- 22
+SELECT nomeemp,TO_CHAR(dtacontratacao, 'DD-MM-YYYY') AS "Data de Contratação", ADD_MONTHS(dtacontratacao,12) AS "Data Revisão"
+FROM empregado
+ORDER BY nomeemp ASC;
+
+-- 24
+SELECT nomeemp AS "EMPREGADO",  salario * 14 + NVL(comissao, 0) AS "REMUNERACAO ANUAL"
+FROM empregado
+ORDER BY nomeemp ASC;
+
+-- 25
+SELECT nomeemp,
+CASE
+  WHEN salario < 1500 THEN 'Menor que 1500' 
+  WHEN salario = 1500 THEN 'Valor Exato' 
+  ELSE to_char(salario)
+END
+AS "SAL"
+FROM empregado
+ORDER BY nomeemp ASC;
+
+
+SELECT NOMEEMP, DECODE(SIGN(1500-SALARIO), 1, 'Menor que 1500',
+                                           0, 'Valor Exato',
+                                           TO_CHAR(SALARIO)) AS SAL
+FROM EMPREGADO
+ORDER BY NOMEEMP;

@@ -1,0 +1,18 @@
+CREATE OR REPLACE FUNCTION func_tipo_inst (pCodI t_instituicao.id%TYPE) RETURN INTEGER IS
+   resultado t_instituicao.deEnsino%TYPE;
+BEGIN
+   -- descobre se instituição recebida por parâmetro é ou não instituição de Ensino
+      SELECT deEnsino
+      INTO resultado
+      FROM t_instituicao
+      WHERE id=pCodI;
+
+      IF UPPER(resultado)='S' THEN
+         RETURN 1;
+      ELSE
+         RETURN 0;
+      END IF;
+EXCEPTION
+     WHEN NO_DATA_FOUND THEN
+         RETURN -1;
+END;
