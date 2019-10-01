@@ -148,7 +148,7 @@ ORDER BY nomeemp ASC;
 
 
 /*  Ex. 23  */
-SELECT nomeemp, TO_CHAR(dtacontratacao, 'DD-MM-YYYY') AS "Data de Contratacao",  ' anos e ' || TRUNC(MONTHS_BETWEEN(SYSDATE, dtacontratacao)) || ' meses de serviço' AS "Tempo de Serviço"
+SELECT nomeemp, TO_CHAR(dtacontratacao, 'DD-MM-YYYY') AS "Data de Contratacao", TRUNC(MONTHS_BETWEEN(SYSDATE,dtacontratacao)/12) || ' anos e ' || MONTHS_BETWEEN(SYSDATE,dtacontratacao)/12 || ' meses de serviço' AS "Tempo de Serviço"
 FROM empregado
 ORDER BY nomeemp ASC;
 
