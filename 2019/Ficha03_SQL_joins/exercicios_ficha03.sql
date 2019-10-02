@@ -23,7 +23,7 @@ ORDER BY e.nomeemp ASC;
 SELECT e.nomeemp AS "NOME", h.funcao AS "FUNCAO", TO_CHAR(h.dtainicio, 'DD-Mon-YYYY') AS "DTAINICIO", TO_CHAR(h.dtafim, 'DD-MON-YYYY') AS "DTAFIM", d.nomedep AS "DEPARTAMENTO"
 FROM empregado e JOIN historico_funcao h ON (e.numemp = h.numemp)
                  JOIN departamento d  ON (d.numdep = h.numdep)
-ORDER BY 1 ASC, 4 DESC;
+ORDER BY e.nomeemp ASC, 4 DESC;
     
 
 
@@ -55,7 +55,7 @@ ORDER BY e.salario DESC, e.nomeemp;
 SELECT e.nomeemp, e.funcao, (e.salario)*14 AS "REMUNERACAO ANUAL", s.escala, d.nomedep
 FROM empregado e JOIN escala_salarial s ON (e.salario BETWEEN s.minsal AND s.maxsal)
                 JOIN departamento d ON (e.numdep = d.numdep)
-WHERE e.salario*14 >=36000 OR e.funcao LIKE 'Escriturário'
+WHERE (e.salario*14) >= 36000 OR LOWER(e.funcao) LIKE 'escriturário'
 ORDER BY e.salario DESC, e.nomeemp;
 
 
