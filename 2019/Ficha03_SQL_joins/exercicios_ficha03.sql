@@ -113,6 +113,12 @@ FROM empregado;
 
 
 /*  Ex. 15  */
+SELECT 'COM: chefe: ' || COUNT(e.chefe) AS "#empregado"
+FROM empregado e
+UNION
+SELECT 'SEM: chefe: ' || COUNT(NVL(aux.chefe, 0)) AS "#empregado"
+FROM empregado aux
+WHERE NVL(aux.chefe, 0) = 0;
 
 
 
