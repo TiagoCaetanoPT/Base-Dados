@@ -1,0 +1,10 @@
+Slide 23
+
+1FN) 	*Todas as colunas são atómicas
+		*Não há colunas com o mesmo tipo de informação
+		
+2FN)	*Chave Primária = {emp_nr, dept_name}
+		Diagrama dependencias funcionais
+		
+		
+						

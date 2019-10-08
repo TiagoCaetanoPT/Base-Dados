@@ -1,0 +1,9 @@
+==============================================
+				SQL PLUS
+==============================================
+
+SQL>connect user/password
+SQL>@C:\BD\ficha01.sql
+SQL>SELECT table_name FROM user_table;
+SQL>describe <nome_tabela>
+SQL>SELECT * FROM t_leitor;
