@@ -104,10 +104,14 @@ ORDER BY 1 DESC;
 
 
 /*  Ex. 14  */
+SELECT d.numdep
+FROM empregado e RIGHT JOIN departamento d ON (e.numdep=d.numdep)
+WHERE e.numdep IS NULL;
+-- OU
 SELECT numdep
 FROM departamento
 MINUS
-SELECT numdep
+SELECT DISTINCT(numdep)
 FROM empregado;
 
 
@@ -123,9 +127,13 @@ WHERE NVL(aux.chefe, 0) = 0;
 
 
 /*  Ex. 16  */
-SELECT numemp, nomeemp
-FROM empregado
-WHERE numemp = chefe OR chefe IS NULL;
+SELECT e2.numemp, e2.nomeemp
+FROM empregado e1 JOIN empregado e2 ON (e1.chefe = e2.numemp)
+WHERE e1.numdep = e2.numdep
+INTERSECT
+SELECT e2.numemp, e2.nomeemp
+FROM empregado e1 JOIN empregado e2 ON (e1.chefe = e2.numemp)
+WHERE e1.numdep <> e2.numdep;
 
 
 
