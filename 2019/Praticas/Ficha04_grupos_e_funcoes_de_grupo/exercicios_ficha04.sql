@@ -227,25 +227,127 @@ ORDER BY 1 ASC;
 
 /*  Ex. 30  */
 SELECT MAX(salario)-MIN(salario) AS "Diferença Maior e Menor", MAX(salario) AS "O Maior Salario", MIN(salario) AS "O Menor Salario"
+FROM empregado;
+
+
+
+/*  Ex. 31  */
+SELECT funcao AS "FUNCAO_NO_DEPARTAMENTO", numdep AS "NUMERO_DO_DEPARTAMENTO", MIN(salario) AS "MENOR_SALARIO", MAX(salario) AS "MAIOR_SALARIO", AVG(salario) AS "SALARIO_MEDIO", COUNT(*) AS "NUMERO_FUNCIONARIOS"
 FROM empregado
-GROUP BY salario;
+GROUP BY funcao, numdep
+ORDER BY 1 ASC, 2 ASC;
+
+
+
+/*  Ex. 32  */
+SELECT MAX(salario)
+FROM empregado
+WHERE TO_CHAR(dtacontratacao, 'YYYY') = 1981;
+
+
+/*  Ex. 33  */
+SELECT TO_CHAR(dtacontratacao, 'DD-MM-YYYY') AS "Data de Contratação", COUNT(*) AS "Número Contratados"
+FROM empregado
+GROUP BY TO_CHAR(dtacontratacao, 'DD-MM-YYYY')
+HAVING COUNT(*) > 1;
 
 
 
 
+/*  Ex. 34  */
+SELECT funcao AS "Emprego", CASE
+                                WHEN ROUND(AVG(salario)) < 1800 THEN 'Menor que 1800'
+                                ELSE TO_CHAR(ROUND(AVG(salario)))
+                            END AS "Média salarial" 
+FROM empregado
+GROUP BY funcao
+ORDER BY 2 DESC;
+
+
+
+/*  Ex. 35  */
+SELECT numdep AS "Número de departamento", COUNT(*) AS "Numero de empregados", ROUND(AVG(salario)) AS "Salário Médio"
+FROM empregado
+WHERE TO_CHAR(dtacontratacao, 'MM-YYYY') NOT LIKE '02-1981'
+GROUP BY numdep
+HAVING AVG(salario) < 2200;
+
+
+
+/*  Ex. 36  */
+SELECT d.nomedep AS "Nome de Departamento", COUNT(e.numemp) AS "Numero de empregados", ROUND(AVG(e.salario)) AS "Salário Médio"
+FROM empregado e JOIN departamento d ON e.numdep=d.numdep
+WHERE TO_CHAR(dtacontratacao, 'MM-YYYY') NOT LIKE '02-1981'
+GROUP BY d.nomedep
+HAVING AVG(e.salario) < 2200;
+
+
+
+/*  Ex. 37  */
+                                                                                            #
+##############################################################################################  REVER
+                                                                                            #
+SELECT d.localizacao, COUNT(*) AS "NUMERO"
+FROM empregado e JOIN departamento d ON e.numdep=d.numdep
+WHERE LOWER(e.funcao) LIKE 'escriturário'
+GROUP BY d.localizacao
+ORDER BY 1;
 
 
 
 
+/*  Ex. 38  */
+SELECT s.escala, COUNT(*) AS "Nº funcionarios"
+FROM empregado e JOIN escala_salarial s ON (e.salario BETWEEN s.minsal AND s.maxsal)
+GROUP BY s.escala
+HAVING COUNT(*) > 2
+ORDER BY 1 ASC;
 
 
 
+/*  Ex. 39  */
+SELECT s.escala, ROUND(AVG(e.salario)) || '€' AS "Média", SUM(e.salario) || '€' AS "Total"
+FROM empregado e JOIN escala_salarial s ON (e.salario BETWEEN s.minsal AND s.maxsal)
+GROUP BY s.escala;
 
 
 
+/*  Ex. 40  */
+SELECT COUNT(*) AS "Status Locais"
+FROM historico_funcao h JOIN empregado e ON (h.numemp = e.numemp)
+WHERE UPPER(e.funcao) LIKE 'PRESIDENTE';
 
 
 
+/*  Ex. 41  */
+SELECT d.localizacao, e.funcao, MAX(e.salario)-MIN(e.salario) AS "Diferencial", COUNT(*) AS "Numero_Funcionarios"
+FROM empregado e JOIN departamento d ON (e.numdep = d.numdep)
+GROUP BY d.localizacao, e.funcao
+HAVING COUNT(*) > 1;
 
 
+
+/*  Ex. 42  */
+SELECT funcao ,chefe, MAX(salario)
+FROM empregado
+WHERE lower(funcao) NOT LIKE 'analista' OR lower(funcao) NOT LIKE 'presidente'
+GROUP BY funcao, chefe;
+
+
+
+/*  Ex. 43  */
+SELECT aux.chefe, MAX(aux.salario) AS "MAIOR_SALARIO_DE_CADA_CHEFE"
+FROM empregado e JOIN empregado aux ON (aux.chefe = e.numemp)
+WHERE lower(e.funcao) NOT LIKE 'analista' AND lower(e.funcao) NOT LIKE 'presidente'
+GROUP BY aux.chefe
+ORDER BY 2;
+
+
+
+/*  Ex. 44  */
+SELECT aux.chefe, ROUND(AVG(aux.salario)) AS "MAIOR_SALARIO_DE_CADA_CHEFE"
+FROM empregado e JOIN empregado aux ON (aux.chefe = e.numemp)
+WHERE lower(e.funcao) NOT LIKE 'analista' AND lower(e.funcao) NOT LIKE 'presidente'
+GROUP BY aux.chefe
+ORDER BY 2;
 
