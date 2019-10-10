@@ -40,7 +40,10 @@ WHERE LOWER(funcao) LIKE 'director';
 
 
 /*  Ex. 7   */
-
+SELECT numdep AS "Número Departamento", COUNT(funcao) AS "Número Diretores"
+FROM empregado
+WHERE UPPER(funcao) LIKE 'DIRECTOR'
+GROUP BY numdep;
 
 
 /*  Ex. 8   */
@@ -201,6 +204,46 @@ GROUP BY numdep;
 
 
 /*  Ex. 27  */
+SELECT 'No departamento ' || numdep || ' desempenham a função ' || funcao || ' ' || COUNT(*) || ' funcionário(s)  e há um diferencial de ' || (MAX(salario)-MIN(salario)) || ' € (Maior ' || MAX(salario) || ' € e Menor ' || MIN(salario) || ' €)'
+FROM empregado
+GROUP BY numdep, funcao
+ORDER BY 1;
+
+
+/*  Ex. 28  */
+SELECT TO_CHAR(dtacontratacao, 'YYYY') AS "Ano de Contratacao", COUNT(*) AS "Número de Emp. Contratados"
+FROM empregado
+GROUP BY TO_CHAR(dtacontratacao, 'YYYY')
+ORDER BY 2 DESC;
+
+
+
+/*  Ex. 29  */
+SELECT funcao AS "Funcao Desempenhada", MIN(salario) AS "Menor Salario", MAX(salario) AS "Maior Salario", ROUND(AVG(salario)) AS "Salario Medio"
+FROM empregado
+GROUP BY funcao
+ORDER BY 1 ASC;
+
+
+/*  Ex. 30  */
+SELECT MAX(salario)-MIN(salario) AS "Diferença Maior e Menor", MAX(salario) AS "O Maior Salario", MIN(salario) AS "O Menor Salario"
+FROM empregado
+GROUP BY salario;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
