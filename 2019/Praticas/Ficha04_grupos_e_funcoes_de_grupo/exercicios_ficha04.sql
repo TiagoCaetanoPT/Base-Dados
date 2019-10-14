@@ -49,7 +49,7 @@ GROUP BY numdep;
 /*  Ex. 8   */
 SELECT COUNT(funcao) AS "NUMERO de Vendedores (30 e 20)"
 FROM empregado
-WHERE UPPER(funcao) LIKE 'VENDEDOR' AND numdep = 30 AND numdep = 30;
+WHERE UPPER(funcao) LIKE 'VENDEDOR' AND (numdep = 30 OR numdep = 20);
 
 
 
@@ -284,11 +284,8 @@ HAVING AVG(e.salario) < 2200;
 
 
 /*  Ex. 37  */
-                                                                                            #
-##############################################################################################  REVER
-                                                                                            #
-SELECT d.localizacao, COUNT(*) AS "NUMERO"
-FROM empregado e JOIN departamento d ON e.numdep=d.numdep
+SELECT d.localizacao, NVL(COUNT(*), 0) AS "NUMERO"
+FROM empregado e LEFT JOIN departamento d ON (e.numdep=d.numdep)
 WHERE LOWER(e.funcao) LIKE 'escriturário'
 GROUP BY d.localizacao
 ORDER BY 1;
