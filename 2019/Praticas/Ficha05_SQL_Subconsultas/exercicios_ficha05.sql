@@ -68,3 +68,42 @@ WHERE e.salario > (SELECT AVG(salario)
                    WHERE numdep = e.numdep)
 ORDER BY 2 ASC, 3 DESC;
 
+
+/*  Ex. 9  */
+SELECT d.nomedep, e.nomeemp, e.dtacontratacao
+FROM departamento d JOIN empregado e ON (d.numdep = e.numdep)
+WHERE e.dtacontratacao > ALL(SELECT r.dtacontratacao
+                              FROM empregado r
+                              WHERE r.numdep=e.numdep AND r.dtacontratacao <> e.dtacontratacao)
+ORDER BY 3;
+
+
+
+/*  Ex. 10  */
+SELECT numdep AS "Departamento", SUM(12*salario) AS "Encargo anual"
+FROM empregado
+GROUP BY numdep
+HAVING SUM(12*salario) = (SELECT MAX("valor")
+                          FROM (SELECT SUM(12*salario) AS "valor"
+                                FROM empregado
+                                GROUP BY numdep));
+
+
+/*  Ex. 11  */
+SELECT TO_CHAR(dtacontratacao, 'YYYY') AS "ANO", COUNT(*) AS "Número de empregados"
+FROM empregado
+GROUP BY TO_CHAR(dtacontratacao, 'YYYY')
+HAVING COUNT(*) = (SELECT MAX("valor") 
+                   FROM (SELECT COUNT(*) AS "valor"
+                         FROM empregado
+                         GROUP BY TO_CHAR(dtacontratacao, 'YYYY')));
+
+
+/*  Ex. 12  */
+SELECT e.nomeemp, e.dtacontratacao, e.salario, e.comissao AS "COM"
+FROM empregado e;
+
+
+
+
+
