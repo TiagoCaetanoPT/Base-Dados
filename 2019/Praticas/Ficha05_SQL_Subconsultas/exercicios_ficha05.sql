@@ -89,6 +89,7 @@ HAVING SUM(12*salario) = (SELECT MAX("valor")
                                 GROUP BY numdep));
 
 
+
 /*  Ex. 11  */
 SELECT TO_CHAR(dtacontratacao, 'YYYY') AS "ANO", COUNT(*) AS "Número de empregados"
 FROM empregado
@@ -99,11 +100,54 @@ HAVING COUNT(*) = (SELECT MAX("valor")
                          GROUP BY TO_CHAR(dtacontratacao, 'YYYY')));
 
 
+
 /*  Ex. 12  */
 SELECT e.nomeemp, e.dtacontratacao, e.salario, e.comissao AS "COM"
-FROM empregado e;
+FROM empregado e JOIN empregado e2 ON (e.salario = e2.salario AND e.numemp <> e2.numemp)
+WHERE e.comissao IS NOT NULL
+ORDER BY 1;
 
 
 
+/*  Ex. 13  */ ---------> Rever
+SELECT COUNT(*) AS "1.ª RevisãoSalarial de 30 anos"
+FROM (SELECT *
+      FROM empregado
+      WHERE MONTHS_BETWEEN(SYSDATE, ADD_MONTHS(dtacontratacao, 12))/12 > 30)
+;
 
 
+
+/*  Ex. 14  */
+SELECT d.nomedep
+FROM departamento d JOIN (SELECT numdep, COUNT(*)
+                          FROM empregado
+                          GROUP BY numdep
+                          HAVING COUNT(*) > 3) e 
+                    ON (d.numdep = e.numdep);
+
+
+/*  Ex. 15  */
+/*
+SELECT d.nomedep
+FROM departamento d JOIN (SELECT numdep, COUNT(funcao)
+                          FROM empregado
+                          WHERE UPPER(funcao) LIKE 'ESCRITURÁRIO'
+                          GROUP BY numdep) e
+                    ON (d.numdep = e.numdep);
+
+
+
+SELECT numdep, COUNT(funcao) AS "ESCRITURÁRIOS"
+FROM empregado
+WHERE UPPER(funcao) LIKE 'ESCRITURÁRIO'
+GROUP BY numdep
+;
+
+SELECT MIN(ESCRITURÁRIOS)
+FROM (SELECT numdep, COUNT(funcao) AS "ESCRITURÁRIOS"
+      FROM empregado
+      WHERE UPPER(funcao) LIKE 'ESCRITURÁRIO'
+      GROUP BY numdep)
+;
+/*

@@ -1,10 +1,16 @@
-Slide 23
+1FN) 	*Todas as colunas são atómicas.
+		*Não há colunas com o mesmo tipo de informação.
+		
+		
+2FN)	*Descobrir a chave primaria.
+		*Diagrama de dependencias funcionais.
+		*Não pode ter atributos a depender apenas de parte da chave primaria.
+		
+		
+3FN)	*Movem-se para novas tabelas os atributos que dependem de outros atributos não chave.
 
-1FN) 	*Todas as colunas são atómicas
-		*Não há colunas com o mesmo tipo de informação
-		
-2FN)	*Chave Primária = {emp_nr, dept_name}
-		Diagrama dependencias funcionais
-		
-		
-						
+
+FN de BOYCE-CODD)	*Procurar as chaves candidatas.
+					*Encontrar os determinantes.
+					*Para respeitar esta regra, o conjunto de determinantes que ser igual ao conjunto de chave candidatas.
+					
