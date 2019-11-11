@@ -109,12 +109,20 @@ ORDER BY 1;
 
 
 
-/*  Ex. 13  */ ---------> Rever
+/*  Ex. 13  */ 
 SELECT COUNT(*) AS "1.ª RevisãoSalarial de 30 anos"
 FROM (SELECT *
       FROM empregado
       WHERE MONTHS_BETWEEN(SYSDATE, ADD_MONTHS(dtacontratacao, 12))/12 > 30)
 ;
+-- OU
+SELECT COUNT(numemp) AS "1.ª RevisãoSalarial de 30 anos"
+FROM empregado
+WHERE numemp IN (SELECT numemp
+                  FROM empregado
+                  WHERE MONTHS_BETWEEN(SYSDATE, dtacontratacao) > 360)
+;
+
 
 
 
@@ -127,6 +135,7 @@ FROM departamento d JOIN (SELECT numdep, COUNT(*)
                     ON (d.numdep = e.numdep);
 
 
+
 /*  Ex. 15  */
 /*
 SELECT d.nomedep
@@ -135,19 +144,24 @@ FROM departamento d JOIN (SELECT numdep, COUNT(funcao)
                           WHERE UPPER(funcao) LIKE 'ESCRITURÁRIO'
                           GROUP BY numdep) e
                     ON (d.numdep = e.numdep);
+*/
 
 
-
-SELECT numdep, COUNT(funcao) AS "ESCRITURÁRIOS"
+/*  Ex. 16  */
+SELECT numdep, COUNT(numemp) AS "Quantidade de Empregados"
 FROM empregado
-WHERE UPPER(funcao) LIKE 'ESCRITURÁRIO'
 GROUP BY numdep
-;
+ORDER BY 1;
 
-SELECT MIN(ESCRITURÁRIOS)
-FROM (SELECT numdep, COUNT(funcao) AS "ESCRITURÁRIOS"
+SELECT numdep
+FROM departamento
+GROUP BY numdep
+ORDER BY 1;
+
+
+/*  Ex. 21  */
+SELECT salario
+FROM (SELECT salario
       FROM empregado
-      WHERE UPPER(funcao) LIKE 'ESCRITURÁRIO'
-      GROUP BY numdep)
-;
-/*
+      ORDER BY salario)
+WHERE ROWNUM <= 3;
