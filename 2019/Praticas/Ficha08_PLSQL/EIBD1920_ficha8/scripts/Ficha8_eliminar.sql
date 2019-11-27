@@ -1,4 +1,5 @@
 DROP VIEW v_total_doutorados;
+DROP VIEW v_docentes;
 DROP FUNCTION f_nomeCompleto;
 DROP TABLE telefone;
 DROP TABLE docente;
@@ -8,6 +9,3 @@ DROP TABLE instituicao_ensino;
 DROP TABLE cantina;
 DROP TABLE instituicao;
 DROP TABLE docs_grau;
-
-
-

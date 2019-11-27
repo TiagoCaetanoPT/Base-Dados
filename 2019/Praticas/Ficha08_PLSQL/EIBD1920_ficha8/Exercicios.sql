@@ -9,14 +9,14 @@
 -- 1
 CREATE OR REPLACE VIEW v_total_doutorados
 AS
-	SELECT p.id_inst AS instituicao, COUNT(*) AS total_doutorados 
+	SELECT p.id_inst AS instituicao, COUNT(*) AS total_doutorados
 	FROM pessoa p JOIN docente d
 		ON p.id = d.id
 	WHERE d.grau = 'D'
 	GROUP BY p.id_inst
 ;
 
--- OU 
+-- OU
 
 CREATE OR REPLACE VIEW v_total_doutorados
 (instituicao, total_doutorados)
@@ -46,18 +46,18 @@ GRANT SELECT ON v_docentes TO presidente;
 CREATE OR REPLACE FUNCTION f_nomeCompleto
 (p_idP pessoa.id%TYPE,p_formato CHAR)
 RETURN VARCHAR2
-IS 
+IS
 	primeiroNome pessoa.prim_nome%TYPE;
 	ultimoNome pessoa.ult_nome%TYPE;
-	
-BEGIN 
+
+BEGIN
 	SELECT prim_nome,ULT_NOME INTO primeiroNome,ultimoNome
 	FROM pessoa
   WHERE id = p_idP;
-  
+
   IF p_formato = 'A' THEN
     RETURN primeiroNome || ' ' || ultimoNome;
-  ELSIF p_formato = 'B' THEN 
+  ELSIF p_formato = 'B' THEN
     RETURN ultimoNome || ' ' || primeiroNome;
   ELSE
     RETURN NULL;
@@ -69,14 +69,13 @@ END f_nomeCompleto;
 	-- SQL
 	SELECT f_nomeCompleto(id, 'A')
 	FROM PESSOA;
-	
+
 	--PLSQL
 	set serveroutput on
-	DECLARE 
+	DECLARE
 		v_nome VARCHAR2(100);
 	BEGIN
 		v_nome := f_nomeCompleto(1, 'B');
 		DBMS_OUTPUT.PUT_LINE(v_nome);
 	END;
 	/
-	
