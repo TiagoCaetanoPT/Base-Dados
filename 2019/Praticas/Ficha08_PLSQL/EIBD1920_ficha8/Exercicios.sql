@@ -79,3 +79,60 @@ END f_nomeCompleto;
 		DBMS_OUTPUT.PUT_LINE(v_nome);
 	END;
 	/
+  
+  
+  --------------------------- PARTE 2
+  -- 9
+CREATE SEQUENCE sq_id_pessoa
+INCREMENT BY 1 START WITH 8;
+
+CREATE OR REPLACE TRIGGER TBI_pessoa
+BEFORE INSERT ON pessoa
+FOR EACH ROW
+BEGIN
+  :NEW.id := sq_id_pessoa.NEXTVAL;
+END;
+/
+
+INSERT INTO pessoa (id, prim_nome, ult_nome, genero, nif, id_inst) VALUES (1,'Teste', 'Teste', 'M', 1234567, 2);
+INSERT INTO pessoa (id, prim_nome, ult_nome, genero, nif, id_inst) VALUES (1,'TESTE', 'TESTE', 'F', 7654321, 2);
+
+
+
+-- 11
+ALTER TABLE pessoa
+ADD dtaRegisto DATE;
+
+CREATE OR REPLACE TRIGGER TBI_pessoa
+BEFORE INSERT ON pessoa
+FOR EACH ROW
+BEGIN
+  :NEW.dtaRegisto := SYSDATE;
+  :NEW.id := sq_id_pessoa.NEXTVAL;
+END;
+/
+
+INSERT INTO pessoa (id, prim_nome, ult_nome, genero, nif, id_inst,dtaRegisto) VALUES (1,'Teste2', '2Teste', 'M', 99999, 2, '12,12,12');
+
+
+
+-- 15
+ALTER TABLE pessoa
+ADD tipo CHAR;
+UPDATE pessoa SET tipo = 'A' WHERE id IN (SELECT id FROM aluno);
+UPDATE pessoa SET tipo = 'D' WHERE id IN (SELECT id FROM docente);
+ALTER TABLE pessoa
+ADD tipo CHAR NOT NULL;
+
+CREATE OR REPLACE TRIGGER TBI_pessoa_tipo
+BEFORE UPDATE OF tipo ON pessoa
+FOR EACH ROW
+BEGIN
+  IF :NEW.tipo != :OLD.tipo THEN
+    RAISE_APPLICATION_ERROR(-20001,'Não pode alterar o tipo!');
+  END IF;
+END;
+/
+
+UPDATE pessoa SET tipo = 'D' WHERE id = 6;
+    
